@@ -7,5 +7,6 @@ target 'CaseStudy' do
 
   # Pods for CaseStudy
   pod 'LBTATools'
+  pod 'SDWebImage', '~> 5.0'
 
 end
