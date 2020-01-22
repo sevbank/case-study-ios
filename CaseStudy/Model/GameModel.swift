@@ -16,10 +16,10 @@ class SearchResponseModel: Codable {
 
 class GameModel: Codable {
     
-    let background_image: String
-    let name: String
-    let metacritic: Int
-    let genres: [GameGenre]
+    let background_image: String?
+    let name: String?
+    let metacritic: Int?
+    let genres: [GameGenre]?
     
 }
 

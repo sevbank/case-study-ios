@@ -17,8 +17,21 @@ class ViewController: LBTAListController<GameTableViewCell, GameModel>,  UIColle
         // Do any additional setup after loading the view.
 //        navigationItem.title = "Games"
 //        navigationItem.largeTitleDisplayMode = .always
-        items = ["GameModel"]
-        collectionView.reloadData()
+        fetchGames()
+        
+    }
+    
+    private func fetchGames() {
+        Service.shared.fetchGames { (response, error) in
+            if let error = error {
+                print(error)
+                return
+            }
+            self.items = response?.results ?? []
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -27,7 +40,7 @@ class ViewController: LBTAListController<GameTableViewCell, GameModel>,  UIColle
     
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return .init(width: view.frame.width, height: 130)
+        return .init(width: view.frame.width, height: 136)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -35,7 +48,7 @@ class ViewController: LBTAListController<GameTableViewCell, GameModel>,  UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return .init(top: 0, left: 0, bottom: 16, right: 0)
+        return .init(top: 0, left: 0, bottom: 0, right: 0)
     }
     
 
