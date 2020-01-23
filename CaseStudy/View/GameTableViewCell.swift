@@ -14,10 +14,10 @@ class GameTableViewCell: LBTAListCell<GameModel> {
     
     let containerView = UIView()
     let gameImageView = UIImageView(image: #imageLiteral(resourceName: "gameCover"))
-    let gameTitleLabel = UILabel(text: "Grand Theft Auto V", font: .systemFont(ofSize: 16, weight: .heavy), textColor: .black, textAlignment: .center, numberOfLines: 1)
-    let metacriticLabel = UILabel(text: "metacritic:", font: .systemFont(ofSize: 13, weight: .medium), textColor: .black, textAlignment: .left, numberOfLines: 1)
-    let scoreLabel = UILabel(text: "14", font: .systemFont(ofSize: 15, weight: .bold), textColor: .red, textAlignment: .left, numberOfLines: 1)
-    let genreLabel = UILabel(text: "action, puzzle", font: .systemFont(ofSize: 11, weight: .regular), textColor: .gray, textAlignment: .left, numberOfLines: 1)
+    let gameTitleLabel = UILabel(text: "Grand Theft Auto V", font: .appBoldFontWith(size: 16), textColor: .black, textAlignment: .left, numberOfLines: 2)
+    let metacriticLabel = UILabel(text: "metacritic:", font: .appRegularFontWith(size: 14), textColor: .black, textAlignment: .left, numberOfLines: 1)
+    let scoreLabel = UILabel(text: "14", font: .appRegularFontWith(size: 16), textColor: .red, textAlignment: .left, numberOfLines: 1)
+    let genreLabel = UILabel(text: "action, puzzle", font: .appRegularFontWith(size: 12), textColor: .gray, textAlignment: .left, numberOfLines: 1)
     
     override var item: GameModel! {
         didSet {
@@ -26,7 +26,13 @@ class GameTableViewCell: LBTAListCell<GameModel> {
             }
             gameTitleLabel.text = item.name ?? ""
             scoreLabel.text = String(describing: item.metacritic ?? 0)
-            genreLabel.text = item.genres?.first?.name
+            var genreString = ""
+            genreString = item.genres?.first?.name ?? ""
+            if !(item.genres?.last?.name?.isEmpty ?? true ){
+                genreString += ", "
+            }
+            genreString += item.genres?.last?.name ?? ""
+            genreLabel.text = genreString
             
         }
     }
@@ -50,16 +56,15 @@ class GameTableViewCell: LBTAListCell<GameModel> {
     
     fileprivate func setupLayout() {
         backgroundColor = .white
-        gameImageView.withSize(.init(width: 120, height: 104))
         gameImageView.contentMode = .scaleAspectFill
         gameImageView.clipsToBounds = true
-        gameTitleLabel.adjustsFontSizeToFitWidth = true
         addSubview(containerView)
         containerView.fillSuperview(padding: .allSides(16))
-        
+        containerView.clipsToBounds = true
+        gameImageView.withSize(.init(width: 120, height: 1004))
         containerView.hstack(gameImageView,
                              UIView().stack(gameTitleLabel,
-                                            UIView().withHeight(44),
+                                            UIView().withHeight(30),
                                             UIView().hstack(metacriticLabel,
                                                             scoreLabel,
                                                             spacing: 6,
@@ -73,6 +78,5 @@ class GameTableViewCell: LBTAListCell<GameModel> {
                              alignment: .fill,
                              distribution: .fill)
     }
-
-
+    
 }
